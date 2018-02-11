@@ -1,0 +1,45 @@
+<div style="position:fixed;background: whitesmoke;min-width: 100%;z-index: 9">
+  <button mat-icon-button (click)="start()">
+    <mat-icon *ngIf="isStarted"> pause</mat-icon>
+    <mat-icon *ngIf="!isStarted">play_arrow</mat-icon>
+  </button>
+  
+  Length
+  <input type="range" min=0 max=31 [(ngModel)]="timerService.maxStep"> Speed
+  <input type="range" min=0 max=1000 [(ngModel)]="timerService.speed">selectedTrack: {{selectedTrack}}
+  <span  >
+    <button (click)="addTrack('sampler')"><mat-icon >add</mat-icon> sampler</button>
+  </span>
+  <span >
+    <button (click)="addTrack('oscillator')"><mat-icon >add</mat-icon>  oscillator</button>
+  </span>
+  <div class="onOffContainer">
+    <span class="onOff" *ngFor="let muteOnOff of muteOnOffArray;let i = index">
+      <span style="float: left" *ngIf="selectedTrack !== i" class="mixerCell" [style.border]="unselectedBorder" [style.background]="trackStyle[i].background">
+        <div (click)="viewTrack(i)" style="text-align: center; cursor: pointer">{{i}}</div>
+        <button (click)="muteTrack(i)">mute</button>
+      </span>
+      <span style="float: left" *ngIf="selectedTrack === i" class="mixerCell" [style.border]="selectedBorder" [style.background]="trackStyle[i].background">
+        <div (click)="viewTrack(i)" style="text-align: center">{{i}}</div>
+        <button (click)="muteTrack(i)">mute</button>
+      </span>
+    </span>
+     
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="mainView">
+  <div *ngFor="let track of tracks;let i = index" style="z-index: 0">
+
+    <app-stepper-sampler [style.display]="trackStyle[i].display" *ngIf="track.tipo === 'sampler'" [trackIndex]="i" [speed]="timerService.speed"
+      [myTimer]="isPlayed"></app-stepper-sampler>
+    <app-stepper-oscillator [style.display]="trackStyle[i].display" *ngIf="track.tipo === 'oscillator'" [trackIndex]="i" [speed]="timerService.speed"
+      [myTimer]="isPlayed"></app-stepper-oscillator>
+
+  </div>
+</div>

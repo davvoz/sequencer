@@ -1,0 +1,111 @@
+.step {
+  text-align: center;
+  float: left;
+  max-width: 6%;
+  min-width: 6%;
+  /* //max-height: 260px; */
+  border-right: 2px solid black;
+  flex: 1;
+  background-image: url('../../../assets/img/footer_lodyas.png');
+  }
+  .stepContainer{
+  color: whitesmoke;
+  background-image: black;
+  }
+  .stepOscillatorContainerh6 {
+   
+    text-align: center;
+    font-family: 'Dhurjati', sans-serif;
+    color:whitesmoke;
+    font-size: 150%;
+  }
+  .stepOscillatorContainerh3{
+  
+    text-align: center;
+    font-family: 'Dhurjati', sans-serif;
+    color:whitesmoke;
+    height: 100%;
+    
+    font-size: 250%;
+  }
+  mat-sidenav-content{
+    overflow: hidden;
+  }
+  .stepOscillatorContainer{
+    color:whitesmoke;
+    font-size: 120%;
+    background-image: url('../../../assets/img/footer_lodyas.png');
+    background-repeat: repeat;
+  }
+  .slider>input {
+    -webkit-appearance: slider-vertical;
+    width: 20px;
+    height: 60px;
+  }
+  .main{
+    font-family: 'Dhurjati', sans-serif;
+    color: whitesmoke;
+  }
+  .liveFx >input {
+    -webkit-appearance: slider-vertical;
+    /* width: 20px; */
+  }
+  .liveFx ,.confPtn{
+      float: left;
+  }
+  .confPtn >input {
+      -webkit-appearance: slider-vertical;
+      /* width: 20px; */
+    }
+  
+  .sliderContainer {
+    
+    background:black;
+  }
+  .slider {
+    
+    float: left;
+    margin: 0 auto;
+  }
+  
+  .monitor {
+    
+    color: white;
+    background: black;
+    border-left: 2px solid grey;
+    text-align: center;
+    
+  }
+  
+  .buttonContainer {
+    max-width: 100%;
+  }
+  
+  .radioContainer {
+    background: black;
+    color: white;
+    text-align: left;
+  }
+  
+  .sassa {
+    width: 5%;
+  }
+  
+  .liveFx {
+    background: yellow;
+  }
+  
+  .confPtn {
+    background: azure;
+  }
+  h3,h6,h5,button,option,select{
+    font-family: 'Dhurjati', sans-serif
+  }
+  mat-sidenav-container{
+    height: 550px;
+  }
+  mat-sidenav{
+    text-align: center;
+    min-width: 200px;
+    max-width: 200px;
+  }

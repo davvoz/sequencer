@@ -1,0 +1,11 @@
+.track {
+  max-height: 5%;
+}
+
+.mixerCell {
+    border: 3px solid black;
+    background: yellowgreen;
+}
+input,button{
+    font-family: 'Dhurjati', sans-serif
+}
