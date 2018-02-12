@@ -57,11 +57,12 @@ export class StepperOscillatorComponent implements OnInit {
   isMotionPitch = false;
   traksDisplay = [];
   filter;
+  patterns = [];
   constructor(
     private audioCtx: AudioContext,
     private http: HttpClient,
     private myTimerService: TimerService
-  ) {
+  ) {    
     this.speedModel = this.myTimerService.speed;
     this.stepIndex = 0;
     this.generalSustain = 0;
@@ -78,7 +79,7 @@ export class StepperOscillatorComponent implements OnInit {
   filterOnOff() {
     this.isFiltred ?
       this.isFiltred = false :
-      this.isFiltred = true ;
+      this.isFiltred = true;
   }
   savePreset() {
     const newPreset: Preset = { titolo: 'User preset' + this.presets.length, note: this.stepsOscillator };
@@ -111,6 +112,7 @@ export class StepperOscillatorComponent implements OnInit {
 
   }
   ngOnInit() {
+    
     this.getJSON('../../../assets/JSON/preset.JSON').subscribe(
       data => {
         localStorage.setItem('presetOscillator', JSON.stringify(data));
@@ -120,7 +122,6 @@ export class StepperOscillatorComponent implements OnInit {
         this.initialNumberOfStep = this.selectedPreset.note.length;
         this.stepsOscillator = this.selectedPreset.note;
         this.presetJson = JSON.stringify(this.selectedPreset);
-        
         this.storage = data;
         this.subscription = this.myTimerService.trackStateItem$
           .subscribe(res => {

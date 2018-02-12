@@ -64,6 +64,11 @@ export class MasterComponent implements OnInit {
       (this.isStarted = true, this.timerService.play()) :
       (this.isStarted = false, this.timerService.stop());
   }
+  stop(){
+    this.isStarted = false;
+    this.timerService.stop();
+    this.timerService.steps = 0 ;
+  }
   addTrack(tipo: string) {
     switch (tipo) {
       case 'oscillator': this.tracks[this.tracks.length] = { track: this.stepper, tipo: tipo };

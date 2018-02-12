@@ -1,6 +1,6 @@
 <mat-sidenav-container>
   <mat-sidenav mode="side" opened="true">
-              <select  [(ngModel)]="selectedPreset">
+              <select (change)="cambioPreset()" [(ngModel)]="selectedPreset">
                 <option *ngFor="let  el of presets" [ngValue]="el">
                   <button>{{el.titolo}}</button>
                 </option>

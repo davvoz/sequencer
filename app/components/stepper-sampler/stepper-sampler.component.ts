@@ -93,11 +93,15 @@ export class StepperSamplerComponent implements OnInit {
     }
 
   }
+  cambioPreset() {
+    this.stepsSampler = this.selectedPreset.note;
+    this.presetJson = JSON.stringify(this.selectedPreset);
+  }
   savePreset() {
     const newPreset: PresetSampler = { titolo: 'User preset' + this.presets.length, note: this.stepsSampler };
-    this.presets = JSON.parse(localStorage.getItem('presetsSampler'));
+    this.presets = JSON.parse(localStorage.getItem('presetSampler'));
     this.presets.push(newPreset);
-    localStorage.setItem('presetsSampler', JSON.stringify(this.presets));
+    localStorage.setItem('presetSampler', JSON.stringify(this.presets));
     this.selectedPreset = newPreset;
     this.presetJson = JSON.stringify(newPreset);
   }
@@ -137,7 +141,6 @@ export class StepperSamplerComponent implements OnInit {
         this.initialNumberOfStep = this.selectedPreset.note.length;
         this.stepsSampler = this.selectedPreset.note;
         this.presetJson = JSON.stringify(this.selectedPreset);
-        
         this.storage = data;
         this.subscription = this.myTimerService.trackStateItem$
           .subscribe(res => {
@@ -146,7 +149,6 @@ export class StepperSamplerComponent implements OnInit {
             }
           });
       });
-    
   }
   playStep(index: number, tipo: string) {
     if (this.isMotion) {

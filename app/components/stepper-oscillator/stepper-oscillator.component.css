@@ -101,7 +101,7 @@
     font-size: 50%;
   }
   mat-sidenav{
-    
+    background : whitesmoke;
     text-align: center;
     min-width: 200px;
     max-width: 200px;
