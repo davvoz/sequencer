@@ -19,10 +19,8 @@ export class MySampler {
 
     ): void {
         const gainNode = this._audioContext.createGain();
-        // console.log(volume, tune, libIndex, playing, filterFrequency, filterGain, duration);
         const biquadFilter = this._audioContext.createBiquadFilter();
         const source = this._audioContext.createBufferSource();
-
         source.buffer = this.library.buffers[libIndex];
         source.playbackRate.setTargetAtTime(tune, this._audioContext.currentTime, 0) ;
         gainNode.gain.setTargetAtTime(volume, this._audioContext.currentTime, 0);

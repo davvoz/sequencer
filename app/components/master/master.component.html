@@ -6,12 +6,15 @@
   
   Length
   <input type="range" min=0 max=31 [(ngModel)]="timerService.maxStep"> Speed
-  <input type="range" min=0 max=1000 [(ngModel)]="timerService.speed">selectedTrack: {{selectedTrack}}
+  <input type="range" min=0 max=1000 [(ngModel)]="timerService.speed">
   <span  >
     <button (click)="addTrack('sampler')"><mat-icon >add</mat-icon> sampler</button>
   </span>
   <span >
     <button (click)="addTrack('oscillator')"><mat-icon >add</mat-icon>  oscillator</button>
+  </span>
+  <span style="float: right">
+      selectedTrack: {{selectedTrack}}
   </span>
   <div class="onOffContainer">
     <span class="onOff" *ngFor="let muteOnOff of muteOnOffArray;let i = index">

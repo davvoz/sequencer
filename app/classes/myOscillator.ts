@@ -1,6 +1,5 @@
 import { AudioContext } from 'angular-audio-context';
 import { TBiquadFilterType } from 'standardized-audio-context';
-import { MyFilter } from './myFilter';
 
 export class MyOscillator {
 
@@ -24,6 +23,8 @@ export class MyOscillator {
             const oscillator = this._audioContext.createOscillator();
             const gainNode = this._audioContext.createGain();
             const biquadFilter = this._audioContext.createBiquadFilter();
+            gainNode.gain.setTargetAtTime(gain, this._audioContext.currentTime, 0);
+            oscillator.frequency.setTargetAtTime(frequency, this._audioContext.currentTime, detune);
             switch (waveform) {
                 case 'sine': oscillator.type = 'sine';
                     break;
@@ -35,7 +36,7 @@ export class MyOscillator {
                     break;
             }
             if (isFiltred) {
-                
+
                 switch (filterType) {
                     case 'allpass': biquadFilter.type = 'allpass';
                         break;
@@ -52,27 +53,17 @@ export class MyOscillator {
                     case 'peaking': biquadFilter.type = 'peaking';
                         break;
                 }
-                oscillator.frequency.cancelScheduledValues(this._audioContext.currentTime);
-                oscillator.frequency.setTargetAtTime(frequency, this._audioContext.currentTime, 0);
                 biquadFilter.frequency.setTargetAtTime(filterFrequency, this._audioContext.currentTime, 0);
-                biquadFilter.gain.setTargetAtTime(filterFrequency, this._audioContext.currentTime, 0);
-                gainNode.gain.setTargetAtTime(gain, this._audioContext.currentTime, 0);
+                biquadFilter.gain.setTargetAtTime(filterGain, this._audioContext.currentTime, 0);
                 oscillator.start(this._audioContext.currentTime);
                 oscillator.connect(biquadFilter);
                 biquadFilter.connect(gainNode);
-                gainNode.connect(this._audioContext.destination);
-                oscillator.stop(this._audioContext.currentTime + sustain / 500);
-
             } else {
-                
-                oscillator.frequency.setTargetAtTime(frequency, this._audioContext.currentTime, detune);
-                gainNode.gain.setTargetAtTime(gain, this._audioContext.currentTime, 0);
                 oscillator.start(this._audioContext.currentTime);
                 oscillator.connect(gainNode);
-                gainNode.connect(this._audioContext.destination);
-                oscillator.stop(this._audioContext.currentTime + sustain / 500);
             }
-
+            gainNode.connect(this._audioContext.destination);
+            oscillator.stop(this._audioContext.currentTime + sustain / 500);
 
 
         }

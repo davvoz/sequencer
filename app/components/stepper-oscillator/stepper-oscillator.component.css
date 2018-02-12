@@ -98,8 +98,10 @@
   }
   mat-sidenav-container{
     height: 560px;
+    font-size: 50%;
   }
   mat-sidenav{
+    
     text-align: center;
     min-width: 200px;
     max-width: 200px;

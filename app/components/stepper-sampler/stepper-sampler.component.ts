@@ -27,12 +27,12 @@ export class StepperSamplerComponent implements OnInit {
   ];
   runtimeLibrary = [
     { nome: 'hit', index: 0 },
-    { nome: 'hat', index: 1 },
-    { nome: 'diocane', index: 2 },
-    { nome: 'clap', index: 3 },
-    { nome: 'kick', index: 4 },
-    { nome: 'nana', index: 5 },
-    { nome: 'snare', index: 6 }];
+    { nome: 'clap', index: 1 },
+    { nome: 'kick', index: 2 },
+    { nome: 'snare', index: 3 },
+    { nome: 'stupiddev', index: 4 },
+    { nome: 'metalhat', index: 5 },
+    { nome: 'vox', index: 6 }];
 
   subscription: Subscription;
   subscriptionIndexTraks: Subscription;
@@ -128,14 +128,25 @@ export class StepperSamplerComponent implements OnInit {
   }
   ngOnInit() {
     this.selectedFilter = 'allpass';
-    this.subscription = this.myTimerService.trackStateItem$
-      .subscribe(
-      res => {
-        if (res.traksAreOn[this.trackIndex]) {
-          if (res.isStarted) { }
-          this.playStep(res.timePosition, this.tipo);
-        }
+    this.getJSON('../../../assets/JSON/presetSampler.JSON').subscribe(
+      data => {
+        localStorage.setItem('presetSampler', JSON.stringify(data));
+        this.storage = JSON.parse(localStorage.getItem('presetSampler'));
+        this.presets = data;
+        this.selectedPreset = this.presets[0];
+        this.initialNumberOfStep = this.selectedPreset.note.length;
+        this.stepsSampler = this.selectedPreset.note;
+        this.presetJson = JSON.stringify(this.selectedPreset);
+        
+        this.storage = data;
+        this.subscription = this.myTimerService.trackStateItem$
+          .subscribe(res => {
+            if (res.traksAreOn[this.trackIndex]) {
+              this.playStep(res.timePosition, this.tipo);
+            }
+          });
       });
+    
   }
   playStep(index: number, tipo: string) {
     if (this.isMotion) {
