@@ -6,7 +6,6 @@ export class SamplesLibraryService {
     constructor(private _audioContext: AudioContext) {
         this.loadSounds('../../assets/WAV/57527__dolfeus__catbeat-hit.wav'); // hit
         this.loadSounds('../../assets/WAV/332364__soneproject__hats1.wav');
-        this.loadSounds('../../assets/WAV/davdioporco.wav');
         this.loadSounds('../../assets/WAV/clap.wav');
         this.loadSounds('../../assets/WAV/kick.wav');
         this.loadSounds('../../assets/WAV/276575__serylis__nana-vox.wav');

@@ -26,13 +26,12 @@ export class StepperSamplerComponent implements OnInit {
     900, 1000, 1100, 1200, 1300, 1400, 1500, 1600
   ];
   runtimeLibrary = [
-    { nome: 'hit', index: 0 },
-    { nome: 'clap', index: 1 },
-    { nome: 'kick', index: 2 },
-    { nome: 'stupiddev', index: 3 },
-    { nome: 'snare', index: 4 },
-    { nome: 'metalhat', index: 5 },
-    { nome: 'vox', index: 6 }];
+    { nome: 'sound1', index: 0 },
+    { nome: 'sound1', index: 1 },
+    { nome: 'sound1', index: 2 },
+    { nome: 'sound1', index: 3 },
+    { nome: 'sound1', index: 4 },
+    { nome: 'sound1', index: 5 }];
 
   subscription: Subscription;
   subscriptionIndexTraks: Subscription;
