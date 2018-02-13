@@ -29,8 +29,8 @@ export class StepperSamplerComponent implements OnInit {
     { nome: 'hit', index: 0 },
     { nome: 'clap', index: 1 },
     { nome: 'kick', index: 2 },
-    { nome: 'snare', index: 3 },
-    { nome: 'stupiddev', index: 4 },
+    { nome: 'stupiddev', index: 3 },
+    { nome: 'snare', index: 4 },
     { nome: 'metalhat', index: 5 },
     { nome: 'vox', index: 6 }];
 
