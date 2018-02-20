@@ -8,7 +8,6 @@ import { TimerService } from '../../services/timerService';
 import { SamplesLibraryService } from '../../services/samplesLibraryService';
 import { Observable } from 'rxjs/Observable';
 import { AudioContext } from 'angular-audio-context';
-
 @Component({
   selector: 'app-stepper-oscillator',
   templateUrl: './stepper-oscillator.component.html',
@@ -26,6 +25,7 @@ export class StepperOscillatorComponent implements OnInit {
   @Input() myTimer: boolean;
   soundState: boolean;
   @Input() trackIndex: number;
+  @Input() destroy: boolean;
   subscription: Subscription;
   subscriptionIndexTraks: Subscription;
   waveforms = ['sine', 'square', 'triangle', 'sawtooth'];
@@ -58,11 +58,17 @@ export class StepperOscillatorComponent implements OnInit {
   traksDisplay = [];
   filter;
   patterns = [];
+  isPlayThisStep;
+  sine = '../../../assets/img/waveforms/sine.png';
+  tri = '../../../assets/img/waveforms/tri.png';
+  square = '../../../assets/img/waveforms/square.png';
+  saw = '../../../assets/img/waveforms/saw.png';
+  isRecordingMotion = false;
   constructor(
     private audioCtx: AudioContext,
     private http: HttpClient,
     private myTimerService: TimerService
-  ) {    
+  ) {
     this.speedModel = this.myTimerService.speed;
     this.stepIndex = 0;
     this.generalSustain = 0;
@@ -72,6 +78,32 @@ export class StepperOscillatorComponent implements OnInit {
     for (let i = 0; i < 32; i++) {
       this.oscillators[i] = new MyOscillator(this.audioCtx);
     }
+
+    this.getJSON('../../../assets/JSON/preset.JSON').subscribe(
+      data => {
+        localStorage.setItem('presetOscillator', JSON.stringify(data));
+        this.storage = JSON.parse(localStorage.getItem('presetOscillator'));
+        this.presets = data;
+        this.selectedPreset = this.presets[0];
+        this.initialNumberOfStep = this.selectedPreset.note.length;
+        this.stepsOscillator = this.selectedPreset.note;
+        this.presetJson = JSON.stringify(this.selectedPreset);
+        this.storage = data;
+        this.subscription = this.myTimerService.trackStateItem$
+          .subscribe(res => {
+            if (this.isRecordingMotion) {
+              this.motion[res.timePosition] = this.filterFrequency;
+            }
+            if (res.traksAreOn[this.trackIndex]) {
+              this.isPlayThisStep = res.timePosition;
+              this.playStep(res.timePosition, res.audioContextTime);
+            }
+          });
+      });
+  }
+  enableRecMotion() {
+    this.isRecordingMotion ? this.isRecordingMotion = false : this.isRecordingMotion = true;
+
   }
   startMotion() {
     !this.isMotion ? this.isMotion = true : this.isMotion = false;
@@ -95,9 +127,6 @@ export class StepperOscillatorComponent implements OnInit {
     this.presetJson = JSON.stringify(this.selectedPreset);
   }
 
-  someChange() {
-    // this.initJson();
-  }
   getJSON(path: string): Observable<any> {
     return this.http.get(path);
   }
@@ -111,51 +140,57 @@ export class StepperOscillatorComponent implements OnInit {
 
 
   }
+  // tslint:disable-next-line:use-life-cycle-interface
+  // ngOnDestroy() {
+  //   this.subscription.unsubscribe();
+  // }
   ngOnInit() {
-    
-    this.getJSON('../../../assets/JSON/preset.JSON').subscribe(
-      data => {
-        localStorage.setItem('presetOscillator', JSON.stringify(data));
-        this.storage = JSON.parse(localStorage.getItem('presetOscillator'));
-        this.presets = data;
-        this.selectedPreset = this.presets[0];
-        this.initialNumberOfStep = this.selectedPreset.note.length;
-        this.stepsOscillator = this.selectedPreset.note;
-        this.presetJson = JSON.stringify(this.selectedPreset);
-        this.storage = data;
-        this.subscription = this.myTimerService.trackStateItem$
-          .subscribe(res => {
-            if (res.traksAreOn[this.trackIndex]) {
-              this.playStep(res.timePosition);
-            }
-          });
-      });
+
+
+
 
 
   }
   startPitchMotion() {
     !this.isMotionPitch ? this.isMotionPitch = true : this.isMotionPitch = false;
   }
-  playStep(index: number) {
+  playPatternStepAtTime(pt) {
+    for (let i = 0; i < this.selectedPreset.note.length; i++) {
+
+      this.playStep(i, pt);
+
+    }
+  }
+  playStep(index: number, audioContextTime: number) {
+    console.log(index, audioContextTime);
     if (this.isMotion) {
       this.filterFrequency = this.motion[index];
     }
     if (this.isMotionPitch) {
       this.tune = this.motion[index];
     }
+
     this.stepIndex = index;
-    this.oscillators[index].play(
-      this.stepsOscillator[index].frequency + this.tune,
-      this.stepsOscillator[index].sustain + this.generalSustain,
-      this.stepsOscillator[index].detune / 10,
-      this.stepsOscillator[index].type,
-      this.stepsOscillator[index].gain / 10 + this.generalGain,
-      this.stepsOscillator[index].play,
-      this.isFiltred,
-      this.filterGain,
-      this.filterFrequency,
-      this.selectedFilter
-    );
+    if (!this.destroy) {
+      if (this.stepsOscillator[index].play) {
+        this.oscillators[index].play(
+          this.stepsOscillator[index].frequency + this.tune,
+          this.stepsOscillator[index].sustain + this.generalSustain,
+          this.stepsOscillator[index].detune / 10,
+          this.stepsOscillator[index].type,
+          this.stepsOscillator[index].gain / 10 + this.generalGain,
+          this.stepsOscillator[index].play,
+          this.isFiltred,
+          this.filterGain,
+          this.filterFrequency,
+          this.selectedFilter,
+          audioContextTime
+        );
+      }
+
+    }
+
+
   }
 
   panic() {

@@ -1,34 +1,42 @@
-<div style="position:fixed;background: whitesmoke;min-width: 100%;z-index: 9">
-  #@!
-  <button mat-icon-button (click)="start()">
-    <mat-icon *ngIf="isStarted"> pause</mat-icon>
-    <mat-icon *ngIf="!isStarted">play_arrow</mat-icon>
-  </button>
-  <button mat-icon-button (click)="stop()"><mat-icon>stop</mat-icon></button>
-  Length
-  <input type="range" min=0 max=31 [(ngModel)]="timerService.maxStep"> Speed
-  <input type="range" min=0 max=1000 [(ngModel)]="timerService.speed">
-  <span  >
-    <button (click)="addTrack('sampler')"><mat-icon >add</mat-icon> sampler</button>
+<div style="position:fixed;min-width: 100%;z-index: 9;" class="masterHeader">
+  Step sequencer
+  
+    <button mat-icon-button (click)="start()">
+      <mat-icon *ngIf="isStarted"> pause</mat-icon>
+      <mat-icon *ngIf="!isStarted">play_arrow</mat-icon>
+    </button>
+    <button mat-icon-button (click)="stop()">
+      <mat-icon>stop</mat-icon>
+    </button>
+    <!-- Length
+    <input type="range" min=0 max=31 [(ngModel)]="timerService.maxStep"> Speed -->
+     bpm<input type="number" min=1 max=300 [(ngModel)]="timerService.speed" style="text-align: center">
+    <span style="float: right">
+    <span>
+      <button (click)="addTrack('sampler')">
+        <mat-icon>add</mat-icon> sampler</button>
+    </span>
+    <span>
+      <button (click)="addTrack('oscillator')">
+        <mat-icon>add</mat-icon> oscillator</button>
+    </span>
   </span>
-  <span >
-    <button (click)="addTrack('oscillator')"><mat-icon >add</mat-icon>  oscillator</button>
-  </span>
-  <span style="float: right">
-      selectedTrack: {{selectedTrack}}
-  </span>
+  
+  
   <div class="onOffContainer">
     <span class="onOff" *ngFor="let muteOnOff of muteOnOffArray;let i = index">
       <span style="float: left" *ngIf="selectedTrack !== i" class="mixerCell" [style.border]="unselectedBorder" [style.background]="trackStyle[i].background">
-        <div (click)="viewTrack(i)" style="text-align: center; cursor: pointer">{{i}}</div>
+        <div (click)="viewTrack(i)" style="text-align: center; cursor: pointer">{{i+1}}</div>
         <button (click)="muteTrack(i)">mute</button>
+        <button (click)="deleteTrack(i)" disabled>del</button>
       </span>
       <span style="float: left" *ngIf="selectedTrack === i" class="mixerCell" [style.border]="selectedBorder" [style.background]="trackStyle[i].background">
-        <div (click)="viewTrack(i)" style="text-align: center">{{i}}</div>
+        <div (click)="viewTrack(i)" style="text-align: center">{{i+1}}</div>
         <button (click)="muteTrack(i)">mute</button>
+        <button (click)="deleteTrack(i)" disabled>del</button>
       </span>
     </span>
-     
+    
   </div>
 </div>
 <br>
@@ -42,8 +50,8 @@
 
     <app-stepper-sampler [style.display]="trackStyle[i].display" *ngIf="track.tipo === 'sampler'" [trackIndex]="i" [speed]="timerService.speed"
       [myTimer]="isPlayed"></app-stepper-sampler>
-    <app-stepper-oscillator [style.display]="trackStyle[i].display" *ngIf="track.tipo === 'oscillator'" [trackIndex]="i" [speed]="timerService.speed"
-      [myTimer]="isPlayed"></app-stepper-oscillator>
+    <app-stepper-oscillator *ngIf="track.tipo === 'oscillator'" [destroy]="tracks[i].destroy" [style.display]="trackStyle[i].display" [trackIndex]="i"
+      [speed]="timerService.speed" [myTimer]="isPlayed"></app-stepper-oscillator>
 
   </div>
 </div>

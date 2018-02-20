@@ -30,7 +30,8 @@ export interface Preset {
 export declare type TOStepSequencerComponentType = 'oscillator' | 'sampler';
 export interface Track {
     track: StepperSamplerComponent ;
-    tipo: TOStepSequencerComponentType;
+    tipo: TOStepSequencerComponentType ;
+    destroy: boolean;
 }
 export interface TrackOsc {
     track:  StepperOscillatorComponent ;
@@ -41,4 +42,5 @@ export interface TickResponse {
     traksAreOn: boolean[];
     timePosition: number;
     isStarted: boolean;
+    audioContextTime: number;
 }

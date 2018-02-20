@@ -6,6 +6,7 @@
     border: 3px solid black;
     background: yellowgreen;
 }
-input,button{
-    font-family: 'Dhurjati', sans-serif
+.masterHeader{
+  background-image: url('../../../assets/img/gun_metal.png');
+  color: white;
 }

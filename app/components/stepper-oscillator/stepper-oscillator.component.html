@@ -1,150 +1,199 @@
-
-  <mat-sidenav-container >
-    <mat-sidenav mode="side" opened="true">
-        <select (change)="cambioPreset()" [(ngModel)]="selectedPreset">
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened="true">
+    <table>
+      <tr>
+        <td>
+          Pattern
+        </td>
+        <td>
+          <select (change)="cambioPreset()" [(ngModel)]="selectedPreset">
             <option *ngFor="let  el of presets" [ngValue]="el">
-              <button>{{el.titolo}}</button>
+              <button>{{el.titolo | slice:0:10}}</button>
             </option>
           </select>
-          <button (click)="savePreset()">save preset</button><hr>
-      <h6 >Live FX</h6>
-      PITCH
-      <input type="range" min=20 max=1000 [(ngModel)]="tune"><br> SUST
-      <input type="range" min=0 max=1000 [(ngModel)]="generalSustain"><br> GAIN
-      <input type="range" min="0" max="0.1" step="0.01" [(ngModel)]="generalGain"><br>
-<hr>
-     <span><h6 >Filter 
-        <input type="checkbox" (change)="filterOnOff()">Enable </h6> </span> 
-     <br>
-      FREQ
-      <input type="range" min="0" max="10000" step="1" [(ngModel)]="filterFrequency">{{filterFrequency}}<br> GAIN
-      <input type="range" min="0" max="100" step="1" [(ngModel)]="filterGain">{{filterGain}}
-      <div style="text-align: left">
-          <table>
-              <tr>
-                <td>
-                  <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[0]}}" [(ngModel)]="selectedFilter">
-                </td>
-                <td>
-                  {{filters[0] }}
-                </td>
-                <td>
-                  <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[1]}}" [(ngModel)]="selectedFilter">
-                </td>
-                <td>
-                  {{filters[1] }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[2]}}" [(ngModel)]="selectedFilter">
-                </td>
-                <td>
-                  {{filters[2] }}
-                </td>
-                <td>
-                  <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[3]}}" [(ngModel)]="selectedFilter">
-                </td>
-                <td>
-                  {{filters[3] }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[4]}}" [(ngModel)]="selectedFilter">
-                </td>
-                <td>
-                  {{filters[4] }}
-                </td>
-                <td>
-                  <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[5]}}" [(ngModel)]="selectedFilter">
-                </td>
-                <td>
-                  {{filters[5] }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[6]}}" [(ngModel)]="selectedFilter">
-                </td>
-                <td>
-                  {{filters[6] }}
-                </td>
-                <td>
-                  <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[7]}}" [(ngModel)]="selectedFilter">
-                </td>
-                <td>
-                  {{filters[7] }}
-                </td>
-              </tr>
-            </table>
-      </div>
-      
-      <button (click)="startMotion()">startMotion</button>
-      <!-- <input type="checkbox" (change)="filterOnOff()"> -->
-      <!-- <app-filter [isFiltred]="isFiltred"></app-filter> -->
-      
-      <!-- <h6 >Configure pattern</h6>
+        </td>
+        <td>
+          <button (click)="savePreset()">save</button>
+        </td>
+      </tr>
+    </table>
+    <hr>
+    <h6>Live FX</h6>
+    FREQ
+    <input type="range" min=20 max=1000 [(ngModel)]="tune">
+    <br> SUST
+    <input type="range" min=0 max=1000 [(ngModel)]="generalSustain">
+    <br> GAIN
+    <input type="range" min="0" max="1" step="0.1" [(ngModel)]="generalGain">
+    <br>
+    <hr>
+    <span>
+      <h6>Filter
+        <input type="checkbox" (change)="filterOnOff()">Enable </h6>
+    </span>
+    <br> FREQ
+    <input type="range" min="0" max="10000" step="1" [(ngModel)]="filterFrequency">
+    <br> RESO
+    <input type="range" min="0" max="100" step="1" [(ngModel)]="filterGain">
+    <div style="text-align: left">
+      <table>
+        <tr>
+          <td>
+            <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[0]}}" [(ngModel)]="selectedFilter">
+          </td>
+          <td>
+            {{filters[0] }}
+          </td>
+          <td>
+            <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[1]}}" [(ngModel)]="selectedFilter">
+          </td>
+          <td>
+            {{filters[1] }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[2]}}" [(ngModel)]="selectedFilter">
+          </td>
+          <td>
+            {{filters[2] }}
+          </td>
+          <td>
+            <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[3]}}" [(ngModel)]="selectedFilter">
+          </td>
+          <td>
+            {{filters[3] }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[4]}}" [(ngModel)]="selectedFilter">
+          </td>
+          <td>
+            {{filters[4] }}
+          </td>
+          <td>
+            <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[5]}}" [(ngModel)]="selectedFilter">
+          </td>
+          <td>
+            {{filters[5] }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[6]}}" [(ngModel)]="selectedFilter">
+          </td>
+          <td>
+            {{filters[6] }}
+          </td>
+          <td>
+            <input type="radio" name="radioFilter{{trackIndex}}" value="{{filters[7]}}" [(ngModel)]="selectedFilter">
+          </td>
+          <td>
+            {{filters[7] }}
+          </td>
+        </tr>
+      </table>
+    </div>Freq motion
+    <span class="motionButtons">
+      <button mat-icon-button (click)="startMotion()" *ngIf="!isMotion">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button mat-icon-button (click)="startMotion()" *ngIf="isMotion" style="background: green">
+        <mat-icon> pause</mat-icon>
+      </button>
+      <button mat-icon-button (click)="enableRecMotion()" *ngIf="!isRecordingMotion">
+        <mat-icon>fiber_manual_record</mat-icon>
+      </button>
+      <button mat-icon-button (click)="enableRecMotion()" *ngIf="isRecordingMotion" style="background: red">
+        <mat-icon>fiber_manual_record</mat-icon>
+      </button>
+    </span>
+  </mat-sidenav>
+  <mat-sidenav-content>
 
-      PITCH
-      <input type="range" min=20 max=1000 [(ngModel)]="flatPitchMode" (change)="flatPitch()"><br> SUSTAIN
-      <input type="range" min=0 max=500 [(ngModel)]="flatSustainMode" (change)="flatSustain()"><br> GAIN
-      <input type="range" min=0 max=1 step=0.1 [(ngModel)]="flatGainMode" (change)="flatGain()"><br> -->
+    <div class="stepOscillatorContainer">
+      <div class="stepContainer">
+        <span *ngFor="let step of stepsOscillator; let i = index" class="step">
 
-      
+          <div class="header">
+            <div class="monitor" style="background: red" *ngIf="stepIndex === i">
 
-</mat-sidenav>
-<mat-sidenav-content>
-  
-      <div class="stepOscillatorContainer">     
-        <div class="stepContainer">
-          <span *ngFor="let step of stepsOscillator; let i = index" class="step">
-            <div class="header">
-              <div class="monitor" style="background: red" *ngIf="stepIndex === i">
-                {{i+1}}
-              </div>
-              <div class="monitor" style="background: grey" *ngIf="stepIndex !== i">
-                {{i+1}}
-              </div>
-              <div class="radioContainer">
-                <input type="radio" name="{{i}}wave" value="{{waveforms[0]}}" [(ngModel)]="step.type"> {{waveforms[0] | slice:0:3}}
-                <br>
-                <input type="radio" name="{{i}}wave" value="{{waveforms[1]}}" [(ngModel)]="step.type"> {{waveforms[1] | slice:0:3}}
-                <br>
-                <input type="radio" name="{{i}}wave" value="{{waveforms[2]}}" [(ngModel)]="step.type"> {{waveforms[2] | slice:0:3}}
-                <br>
-                <input type="radio" name="{{i}}wave" value="{{waveforms[3]}}" [(ngModel)]="step.type"> {{waveforms[3] | slice:0:3}}
-              </div>
+              <button (click)="noteOn(i)" *ngIf="!step.play" class="onOfButton">
+
+              </button>
+              <button (click)="noteOn(i)" *ngIf="step.play" style="background: black" class="onOfButton">
+
+              </button>
             </div>
-            <div class="sliderContainer">
-              <div class="slider">
-               F<input type="range" min=20 max=300 [(ngModel)]="step.frequency" (change)="someChange()">
+            <div class="monitor" style="background: grey" *ngIf="stepIndex !== i">
+
+              <button (click)="noteOn(i)" *ngIf="!step.play" class="onOfButton">
+
+              </button>
+              <button (click)="noteOn(i)" *ngIf="step.play" style="background: black" class="onOfButton">
+
+              </button>
+            </div>
+            <div class="radioContainer">
+              <div>
+                <label style="float: left;margin-left: 4px">
+                  <input type="radio" name="{{i}}wave" value="{{waveforms[0]}}" [(ngModel)]="step.type" />
+                  <img [src]="sine" width="25">
+                </label>
+
+                <label style="float: right;margin-right: 4px">
+                  <input type="radio" name="{{i}}wave" value="{{waveforms[1]}}" [(ngModel)]="step.type" />
+                  <img [src]="square" width="25">
+                </label>
               </div>
-              <div class="slider">
-                S<input type="range" min=0 max=500 [(ngModel)]="step.sustain" (change)="someChange()">
-              </div>
-              <div class="slider">
-               D<input type="range" min="0" max="1" step="0.1" [(ngModel)]="step.detune" (change)="someChange()">
+              <div>
+                <label style="float: right; margin-right: 4px">
+                  <input type="radio" name="{{i}}wave" value="{{waveforms[2]}}" [(ngModel)]="step.type" />
+                  <img [src]="tri" width="25">
+                </label>
+                <label style="float: left;margin-left: 4px">
+                  <input type="radio" name="{{i}}wave" value="{{waveforms[3]}}" [(ngModel)]="step.type" />
+                  <img [src]="saw" width="25">
+                </label>
               </div>
 
-              <div class="slider">
-               G<input type="range" min="0" max="1" step="0.1" [(ngModel)]="step.gain" (change)="someChange()">
-              </div>
-              <!-- <div >
+            </div>
+          </div>
+          <br>
+          <br>
+          <br>
+          <div class="sliderContainer">
+
+            <div class="slider">
+              Freq
+              <br>
+              <input type="range" min=20 max=300 [(ngModel)]="step.frequency">
+            </div>
+            <div class="slider">
+              Sust
+              <br>
+              <input type="range" min=0 max=500 [(ngModel)]="step.sustain">
+            </div>
+            <div class="slider">
+              Det
+              <br>
+              <input type="range" min="0" max="1" step="0.1" [(ngModel)]="step.detune">
+            </div>
+
+            <div class="slider">
+              Vol
+              <br>
+              <input type="range" min="0" max="1" step="0.1" [(ngModel)]="step.gain">
+            </div>
+            <!-- <div >
                 <input type="number"  [(ngModel)]="motion[i]" min=0 max=20000>
               </div> -->
-            </div>
-            <button (click)="noteOn(i)" *ngIf="!step.play">{{step.play}}
-              <span>off</span>
-            </button>
-            <button (click)="noteOn(i)" *ngIf="step.play" style="background: green">{{step.play}}
-              <span>on</span>
-            </button>
-          </span>
-        </div>
+          </div>
+
+        </span>
       </div>
-   
-</mat-sidenav-content>
+    </div>
+
+  </mat-sidenav-content>
 </mat-sidenav-container>
-
-

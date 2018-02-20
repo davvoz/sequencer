@@ -12,17 +12,10 @@
   color: whitesmoke;
   background-image: black;
   }
-  .stepOscillatorContainerh6 {
-   
-    text-align: center;
-    font-family: 'Dhurjati', sans-serif;
-    color:whitesmoke;
-    font-size: 150%;
-  }
+  
   .stepOscillatorContainerh3{
   
     text-align: center;
-    font-family: 'Dhurjati', sans-serif;
     color:whitesmoke;
     height: 100%;
     
@@ -74,7 +67,14 @@
     background: black;
     border-left: 2px solid grey;
     text-align: center;
-    
+    font-size: 70%;
+  }
+  .onOfButton{
+    min-height: 20px;
+    max-height: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    border-radius: 100%;
   }
   
   .buttonContainer {
@@ -98,15 +98,18 @@
   .confPtn {
     background: azure;
   }
-  h3,h6,h5,button,option,select{
-    font-family: 'Dhurjati', sans-serif
-  }
-  mat-sidenav-container{
-    height: 550px;
-  }
+  
+  
   mat-sidenav{
     background : whitesmoke;
     text-align: center;
     min-width: 200px;
     max-width: 200px;
+    
+  }
+  mat-sidenav-container{
+    height: 550px;
+  }
+  .motionButtons > button > mat-icon , {
+    font-size: 70%;
   }

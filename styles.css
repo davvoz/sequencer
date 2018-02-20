@@ -2,5 +2,4 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 body{
     background-image: url('/assets/img/footer_lodyas.png');
-    font-family: 'Dhurjati', sans-serif;
 }

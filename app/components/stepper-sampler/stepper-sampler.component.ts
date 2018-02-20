@@ -26,12 +26,12 @@ export class StepperSamplerComponent implements OnInit {
     900, 1000, 1100, 1200, 1300, 1400, 1500, 1600
   ];
   runtimeLibrary = [
-    { nome: 'sound1', index: 0 },
-    { nome: 'sound1', index: 1 },
-    { nome: 'sound1', index: 2 },
-    { nome: 'sound1', index: 3 },
-    { nome: 'sound1', index: 4 },
-    { nome: 'sound1', index: 5 }];
+    { nome: 'hit', index: 0 },
+    { nome: 'clap', index: 1 },
+    { nome: 'kick', index: 2 },
+    { nome: 'snare', index: 3 },
+    { nome: 'metalhat', index: 4 },
+    { nome: 'vox', index: 5 }];
 
   subscription: Subscription;
   subscriptionIndexTraks: Subscription;
@@ -69,6 +69,8 @@ export class StepperSamplerComponent implements OnInit {
   isFiltred = false;
   isMotion = false;
   emptyPattern: StepSampler[] = [];
+  isRecordingMotion = false;
+
   constructor(
     private audioCtx: AudioContext,
     private http: HttpClient,
@@ -90,6 +92,11 @@ export class StepperSamplerComponent implements OnInit {
         duration: 0.5
       };
     }
+
+  }
+  
+  enableRecMotion() {
+    this.isRecordingMotion ? this.isRecordingMotion = false : this.isRecordingMotion = true;
 
   }
   cambioPreset() {
@@ -116,9 +123,7 @@ export class StepperSamplerComponent implements OnInit {
     const parsedValue = parseInt(event.target.value.substr(2));
     this.selectedSample = this.runtimeLibrary[parsedValue].index;
   }
-  someChange() {
-    // this.initJson();
-  }
+
   getJSON(path: string): Observable<any> {
     return this.http.get(path);
   }
@@ -134,36 +139,41 @@ export class StepperSamplerComponent implements OnInit {
     this.getJSON('../../../assets/JSON/presetSampler.JSON').subscribe(
       data => {
         localStorage.setItem('presetSampler', JSON.stringify(data));
-        this.storage = JSON.parse(localStorage.getItem('presetSampler'));
         this.presets = data;
         this.selectedPreset = this.presets[0];
         this.initialNumberOfStep = this.selectedPreset.note.length;
         this.stepsSampler = this.selectedPreset.note;
         this.presetJson = JSON.stringify(this.selectedPreset);
-        this.storage = data;
         this.subscription = this.myTimerService.trackStateItem$
           .subscribe(res => {
-            if (res.traksAreOn[this.trackIndex]) {
-              this.playStep(res.timePosition, this.tipo);
+            if (this.isRecordingMotion) {
+              this.motion[res.timePosition] = this.filterFrequency;
             }
+            if (res.traksAreOn[this.trackIndex]) {
+              this.playStep(res.timePosition, res.audioContextTime);
+            }  
           });
       });
   }
-  playStep(index: number, tipo: string) {
+  playStep(index: number, audioContextTime: number) {
     if (this.isMotion) {
       this.filterFrequency = this.motion[index];
     }
     this.stepIndex = index;
-    this.samplers[index].play(
-      this.stepsSampler[index].gain + this.generalGain,
-      this.stepsSampler[index].sampleTune + this.tune,
-      this.selectedSample,
-      this.stepsSampler[index].play,
-      this.stepsSampler[index].duration,
-      this.filterFrequency,
-      this.filterGain,
-      this.selectedFilter,
-      this.isFiltred);
+    if (this.stepsSampler[index].play) {
+      this.samplers[index].play(
+        this.stepsSampler[index].gain + this.generalGain,
+        this.stepsSampler[index].sampleTune + this.tune,
+        this.selectedSample,
+        this.stepsSampler[index].play,
+        this.stepsSampler[index].duration,
+        this.filterFrequency,
+        this.filterGain,
+        this.selectedFilter,
+        this.isFiltred,
+        audioContextTime);
+    }
+
   }
 
   flatPitch() {

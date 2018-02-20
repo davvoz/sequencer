@@ -6,6 +6,7 @@ import { Track, TOStepSequencerComponentType } from '../../interfaces/interfaces
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { StepperOscillatorComponent } from '../stepper-oscillator/stepper-oscillator.component';
 import { StepperSamplerComponent } from '../stepper-sampler/stepper-sampler.component';
+import { AudioContext } from 'angular-audio-context';
 export interface TrackStyle {
   display: string;
   background: string;
@@ -18,9 +19,9 @@ export interface TrackStyle {
 })
 export class MasterComponent implements OnInit {
   @ViewChild('stepSequencer') stepper: StepperSamplerComponent;
-  trackModel: Track = { track: this.stepper, tipo: 'oscillator' };
+  trackModel: Track = { track: this.stepper, tipo: 'oscillator', destroy: false };
   isStarted = false;
-  speed = 106;
+  speed = 120;
   tracks = [];
   muteOnOffArray = [];
   selectTrackArray = [];
@@ -33,7 +34,7 @@ export class MasterComponent implements OnInit {
   private step: boolean;
   public steps: number;
   mutedChannels = [];
-  maxStepModel ;
+  maxStepModel;
   triggers = [false, false, false];
   constructor(public timerService: TimerService) {
     this.timerService.speed = this.speed;
@@ -64,16 +65,16 @@ export class MasterComponent implements OnInit {
       (this.isStarted = true, this.timerService.play()) :
       (this.isStarted = false, this.timerService.stop());
   }
-  stop(){
+  stop() {
     this.isStarted = false;
     this.timerService.stop();
-    this.timerService.steps = 0 ;
+    this.timerService.steps = 0;
   }
   addTrack(tipo: string) {
     switch (tipo) {
-      case 'oscillator': this.tracks[this.tracks.length] = { track: this.stepper, tipo: tipo };
+      case 'oscillator': this.tracks[this.tracks.length] = { track: this.stepper, tipo: tipo, destroy: false };
         break;
-      case 'sampler': this.tracks[this.tracks.length] = { track: this.stepper, tipo: tipo };
+      case 'sampler': this.tracks[this.tracks.length] = { track: this.stepper, tipo: tipo, destroy: false };
         break;
     }
     this.trackStyle.push({ background: 'yellowgreen', display: 'block' });
@@ -89,6 +90,12 @@ export class MasterComponent implements OnInit {
     for (let i = 0; i < this.trackStyle.length; i++) {
       displayedTrackIndex === i ? this.trackStyle[i].display = 'block' : this.trackStyle[i].display = 'none';
     }
+
+  }
+  deleteTrack(index: number) {  
+    this.tracks.splice(index, 1);
+    this.tracks[index].destroy = true;
+    this.muteOnOffArray.splice(index, 1);
   }
   // removeTrack(index: number) {
   //   this.tracks.splice(index, 1);
@@ -96,7 +103,7 @@ export class MasterComponent implements OnInit {
   //   this.timerService.removeTrack(index);
   // }
   ngOnInit() {
-    this.maxStepModel = this.timerService.maxStep ;
+    this.maxStepModel = this.timerService.maxStep;
   }
 
 }

@@ -1,6 +1,7 @@
 html, body {
+    
     overflow: hidden;
     width: 100%;
-    height: 100%;
-    background-color: green; /* per prova: se vedi del verde, vuol dire che il wrapper non copre tutto */
+    height: 100%;/* per prova: se vedi del verde, vuol dire che il wrapper non copre tutto */
     }
+    

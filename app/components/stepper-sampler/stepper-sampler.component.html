@@ -1,23 +1,51 @@
 <mat-sidenav-container>
   <mat-sidenav mode="side" opened="true">
-              <select (change)="cambioPreset()" [(ngModel)]="selectedPreset">
-                <option *ngFor="let  el of presets" [ngValue]="el">
-                  <button>{{el.titolo}}</button>
-                </option>
-              </select>
-              <button (click)="savePreset()">save preset</button><hr>
-    <h6 class="stepSamplerContainerh6">Live FX</h6> PITCH
+    <table>
+      <tr>
+        <td>
+          Pattern
+        </td>
+        <td>
+          <select (change)="cambioPreset()" [(ngModel)]="selectedPreset">
+            <option *ngFor="let  el of presets" [ngValue]="el">
+              <button>{{el.titolo}}</button>
+            </option>
+          </select>
+        </td>
+        <td>
+          <button (click)="savePreset()">save</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Sample
+        </td>
+        <td>
+          <select (change)="changeSample($event)" [(ngModel)]="selectedSampleIndex">
+            <option *ngFor="let  sample of runtimeLibrary ; let i = index" [ngValue]="i">
+              {{sample.nome}}
+            </option>
+          </select>
+        </td>
+        <td>
+        </td>
+      </tr>
+    </table>
+
+    <hr>
+    <h6>Live FX</h6> FREQ
     <input type="range" min="0" max="5" step="0.1" [(ngModel)]="tune">
     <br> GAIN
-    <input type="range" min="0" max="10" step="0.5" [(ngModel)]="generalGain">
+    <input type="range" min="0" max="1" step="0.1" [(ngModel)]="generalGain">
     <hr>
-    <h6 class="stepSamplerContainerh6">Filter <input type="checkbox" (change)="filterOnOff()">Enable</h6>
-    
-    
+    <h6>Filter
+      <input type="checkbox" (change)="filterOnOff()">Enable</h6>
+
+
     <br> FREQ
-    <input type="range" min="0" max="10000" step="1" [(ngModel)]="filterFrequency">{{filterFrequency}}
-    <br> GAIN
-    <input type="range" min="0" max="100" step="1" [(ngModel)]="filterGain">{{filterGain}}
+    <input type="range" min="0" max="10000" step="1" [(ngModel)]="filterFrequency">
+    <br> RESO
+    <input type="range" min="0" max="100" step="1" [(ngModel)]="filterGain">
     <br>
 
 
@@ -82,48 +110,60 @@
       </table>
 
     </div>
-    <button (click)="startMotion()">startMotion</button>
-    <hr>
-
-    <h6 class="stepSamplerContainerh6">Select sample <select (change)="changeSample($event)" [(ngModel)]="selectedSampleIndex">
-        <option *ngFor="let  sample of runtimeLibrary ; let i = index" [ngValue]="i">
-          {{sample.nome}}
-        </option>
-      </select> </h6>
-    
-    
-
+   Freq motion
+   <span class="motionButtons">
+      <button mat-icon-button (click)="startMotion()" *ngIf="!isMotion">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button mat-icon-button (click)="startMotion()" *ngIf="isMotion" style="background: green">
+        <mat-icon> pause</mat-icon>
+      </button>
+      <button mat-icon-button (click)="enableRecMotion()" *ngIf="!isRecordingMotion">
+        <mat-icon>fiber_manual_record</mat-icon>
+      </button>
+      <button mat-icon-button (click)="enableRecMotion()" *ngIf="isRecordingMotion" style="background: red">
+        <mat-icon>fiber_manual_record</mat-icon>
+      </button>
+    </span>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="stepSamplerContainer">
       <div class="stepContainer">
         <div class="step" *ngFor="let step of stepsSampler; let i = index">
           <div style="background: red" *ngIf="stepIndex === i">
-            {{i+1}}
+            <button (click)="noteOn(i)" *ngIf="!step.play" class="onOfButton">
+
+            </button>
+            <button (click)="noteOn(i)" *ngIf="step.play" style="background: black" class="onOfButton">
+
+            </button>
           </div>
           <div style="background: gray" *ngIf="stepIndex !== i">
-            {{i+1}}
+            <button (click)="noteOn(i)" *ngIf="!step.play" class="onOfButton">
+
+            </button>
+            <button (click)="noteOn(i)" *ngIf="step.play" style="background: black" class="onOfButton">
+
+            </button>
           </div>
           {{step.gain}}{{step.sampleTune}}
           <div class="sliderContainer">
+
             <div class="slider">
-              G
-              <input type="range" min="0" max="1" step="0.1" [(ngModel)]="step.gain">
-            </div>
-            <div class="slider">
-              F
+              Freq
+              <br>
               <input type="range" min="0" max="1" step="0.1" [(ngModel)]="step.sampleTune">
             </div>
             <div class="slider">
-              S
+              Sust
+              <br>
               <input type="range" min="0" max="1" step="0.01" [(ngModel)]="step.duration">
             </div>
-            <button (click)="noteOn(i)" *ngIf="!step.play" style="background:red">
-              <span>off</span>
-            </button>
-            <button (click)="noteOn(i)" *ngIf="step.play" style="background: green">
-              <span>on</span>
-            </button>
+            <div class="slider">
+              Vol
+              <br>
+              <input type="range" min="0" max="1" step="0.1" [(ngModel)]="step.gain">
+            </div>
           </div>
         </div>
       </div>
